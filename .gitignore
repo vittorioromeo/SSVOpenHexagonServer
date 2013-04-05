@@ -1,4 +1,14 @@
 /lib
+/bin
+bin/
+obj/
+/obj
+*.obj
+*.lib
+*.exe
+*.a
+*.out
+*.cbTemp
 
 #################
 ## Eclipse

@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1365028008 source:c:\users\mischa\programming\ssvopenhexagonserver\main.cpp
+	<mysql.h>
+	<iostream>
+	<string>
+	<memory>
+	<SFML/Network.hpp>
+
