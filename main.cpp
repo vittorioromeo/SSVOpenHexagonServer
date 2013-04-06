@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
+#include <cstring>
 #include <SFML/Network.hpp>
 #include <SSVUtils/SSVUtils.h>
 #include "MySQLSession/MySQLSession.hpp"
@@ -24,7 +26,7 @@ int main(int argc, char** argv)
     sf::TcpSocket clients[clients_size];
     bool  clientAvailable[clients_size];
 
-    memset(clientAvailable, true, sizeof(bool) * 1000);
+    std::memset(clientAvailable, true, sizeof(bool) * 1000);
     clientAvailable[1] = false;
 
     //clients.resize(1000);

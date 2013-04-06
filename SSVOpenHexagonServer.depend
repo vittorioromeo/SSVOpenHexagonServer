@@ -14,25 +14,25 @@
 	"MySQLSession/MySQLSession.hpp"
 	"PacketHandler/PacketHandler.hpp"
 
-1365288198 e:\programming\ssvopenhexagonserver\mysqlsession\mysqlsession.hpp
-	<mysql.h>
+1365290238 e:\programming\ssvopenhexagonserver\mysqlsession\mysqlsession.hpp
+	<mysql/mysql.h>
 	<iostream>
 
-1365288588 e:\programming\ssvopenhexagonserver\packethandler\packethandler.hpp
+1365289332 e:\programming\ssvopenhexagonserver\packethandler\packethandler.hpp
 	<iostream>
 	<string>
 	<SFML/Network.hpp>
 	<SSVUtils/SSVUtils.h>
 	"MySQLSession/MySQLSession.hpp"
 
-1365282674 source:e:\programming\ssvopenhexagonserver\mysqlsession\mysqlsession.cpp
+1365289332 source:e:\programming\ssvopenhexagonserver\mysqlsession\mysqlsession.cpp
 	"MySQLSession/MySQLSession.hpp"
 
 1365282585 e:\programming\ssvopenhexagonserver\\mysqlsession\mysqlsession.hpp
 	<mysql.h>
 	<iostream>
 
-1365288685 source:e:\programming\ssvopenhexagonserver\packethandler\packethandler.cpp
+1365289332 source:e:\programming\ssvopenhexagonserver\packethandler\packethandler.cpp
 	<iostream>
 	<string>
 	<SFML/Network.hpp>
