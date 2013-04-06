@@ -5,7 +5,6 @@
  * (c) 2013 Mischa Alff and Vittorio Romeo
  */
 
-//#include <my_global.h>
 #include <mysql.h>
 #include <iostream>
 #include <string>
@@ -48,11 +47,11 @@ public:
         {
             return getError().errorstr;
         }
-        return "";
+        //return "";
 
         if(get)
         {
-            int num_fields, i;
+            int num_fields;
 
             std::string returnValue;
 
@@ -62,7 +61,7 @@ public:
 
             while ((row = mysql_fetch_row(result)))
             {
-                for(i = 0; i < num_fields; i++)
+                for(int i = 0; i < num_fields; i++)
                 {
                     if(verbose)
                         std::cout<<(row[i] ? row[i] : "NULL");
@@ -76,6 +75,8 @@ public:
 
             return returnValue;
         }
+
+        return "";
     }
 
     bool initiate(std::string Hostname_, int port_, std::string username_, std::string password_, std::string database_ = "")
@@ -114,7 +115,7 @@ public:
 };
 void Concantate(std::string &source)
 {
-    for(int i{0}; i < source.length(); i++)
+    for(unsigned int i{0}; i < source.length(); i++)
     {
         switch(source[i])
         {
@@ -133,7 +134,7 @@ bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &
     // order: level, difficulty, username, score
     std::string level, username;
     float difficulty, score;
-    int8_t temp;
+    //int8_t temp;
 
     if(packet >> level >> difficulty >> username >> score)
     {
@@ -183,7 +184,71 @@ bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &
 
 bool handlePacket0x01(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose)
 {
+    std::string level, username;
+    float difficulty;
 
+    if(packet >> level >> difficulty >> username)
+    {
+        Concantate(level);
+        Concantate(username);
+
+        sf::Packet response;
+
+        std::string query =
+
+R"(SELECT CONCAT("[",
+    GROUP_CONCAT(
+        CONCAT("{\"p\":", row_number, ","),
+        CONCAT("\"n\":\"", user_name, "\""),
+        CONCAT(",\"s\":",score,"}")
+    ),
+    "]"
+)
+AS json FROM (
+    SELECT score, user_name, @curRow := @curRow + 1 AS row_number
+    FROM )" + level + R"( JOIN(SELECT @curRow := 0) r WHERE difficulty = )" + std::to_string(difficulty) + R"(
+    ORDER BY score DESC LIMIT 8
+) AS foo;)";
+
+        std::cout<<query<<std::endl;
+
+        response << session.runQuery(query, true);
+
+        query.clear();
+
+        query =
+R"(SELECT CONCAT("\"ppos\":",
+    GROUP_CONCAT(
+        CONCAT("{\"p\":", row_number, ","),
+        CONCAT("\"n\":\"", user_name, "\""),
+        CONCAT(",\"s\":",score,"}")
+    )
+) AS json FROM (
+    SELECT score, user_name, row_number
+    FROM (
+        SELECT score, user_name, @curRow := @curRow + 1 AS row_number
+        FROM )" + level + R"( JOIN(SELECT @curRow := 0) r
+        WHERE difficulty = )" + std::to_string(difficulty) + R"(
+        ORDER BY score DESC
+    ) AS derp
+    WHERE user_name = ")" + username + R"("
+) AS foo;)";
+
+        std::cout<<query<<std::endl;
+
+        response << session.runQuery(query, true);
+
+        socket.send(response);
+
+        return true;
+
+    }
+    else
+    {
+        std::cout<<"Error: packet 0x01 did not extract successfully."<<std::endl;
+        return false;
+    }
+    return false;
 }
 
 bool handlePackets(sf::Packet packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose)
@@ -191,12 +256,16 @@ bool handlePackets(sf::Packet packet, MySQLSession &session, sf::TcpSocket &sock
     int8_t packetIdentifier;
     if(packet >> packetIdentifier)
     {
-        if(packetIdentifier == 0)
-            handlePacket0x00(packet, session, socket, verbose);
+        switch(packetIdentifier)
+        {
+        case 0x00:
+            return handlePacket0x00(packet, session, socket, verbose);
+            break;
 
-        else if(packetIdentifier == 1)
-            ;
-
+        case 0x01:
+            return handlePacket0x01(packet, session, socket, verbose);
+            break;
+        }
     }
     return true;
 }
@@ -251,7 +320,7 @@ int main(int argc, char** argv)
                 }
             }
         }
-        sf::sleep(sf::milliseconds(100));
+        sf::sleep(sf::milliseconds(200));
     }
 
     mainSession.closeSQL();

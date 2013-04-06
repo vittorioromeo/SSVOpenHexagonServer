@@ -6,3 +6,10 @@
 	<memory>
 	<SFML/Network.hpp>
 
+1365261523 source:e:\programming\ssvopenhexagonserver\main.cpp
+	<mysql.h>
+	<iostream>
+	<string>
+	<memory>
+	<SFML/Network.hpp>
+
