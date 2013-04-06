@@ -1,6 +1,6 @@
 ## Open Hexagon server software ##
 
-This was written using C++, SFML's network library, and MariaDB (MySQL)'s C connector.
+This was written using C++, SFML's network library, Vittorio's SSVUtils, and MariaDB (MySQL)'s C connector.
 
 ## PACKET SPECIFICATION: ##
 
@@ -8,7 +8,7 @@ This was written using C++, SFML's network library, and MariaDB (MySQL)'s C conn
 
 Client to Server
 
-packet << (uint8) packet number << (string) level << (float) difficulty << (string) username << (float) score;
+packet << (uint8) packet number << (string) level << (float) difficulty << (string) username << (float) score << (string) Encrypted key;
 
 Will return packet 0x10.
 
