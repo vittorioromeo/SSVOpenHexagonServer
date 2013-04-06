@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mysql.h>
+#include <mysql/mysql.h>
 #include <iostream>
 
 
