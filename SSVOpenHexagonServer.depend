@@ -61,3 +61,46 @@
 	<SSVUtils/SSVUtils.h>
 	"MySQLSession/MySQLSession.hpp"
 
+1365342306 source:e:\programming\ssvopenhexagonserver\src\ssvopenhexagonserver\main.cpp
+	<iostream>
+	<string>
+	<memory>
+	<cstring>
+	<SFML/Network.hpp>
+	<SSVUtils/SSVUtils.h>
+	"MySQLSession/MySQLSession.hpp"
+	"PacketHandler/PacketHandler.hpp"
+
+1365336303 e:\programming\ssvopenhexagonserver\src\ssvopenhexagonserver\mysqlsession\mysqlsession.hpp
+	<mysql/mysql.h>
+	<iostream>
+
+1365336303 e:\programming\ssvopenhexagonserver\src\ssvopenhexagonserver\packethandler\packethandler.hpp
+	<iostream>
+	<string>
+	<SFML/Network.hpp>
+	<SSVUtils/SSVUtils.h>
+	"MySQLSession/MySQLSession.hpp"
+
+1365336303 e:\programming\ssvopenhexagonserver\src\ssvopenhexagonserver\\mysqlsession\mysqlsession.hpp
+	<mysql/mysql.h>
+	<iostream>
+
+1365336664 source:e:\programming\ssvopenhexagonserver\src\ssvopenhexagonserver\mysqlsession\mysqlsession.cpp
+	"MySQLSession/MySQLSession.hpp"
+
+1365340041 source:e:\programming\ssvopenhexagonserver\src\ssvopenhexagonserver\packethandler\packethandler.cpp
+	<iostream>
+	<string>
+	<SFML/Network.hpp>
+	<SSVUtils/SSVUtils.h>
+	"MySQLSession/MySQLSession.hpp"
+	"PacketHandler/PacketHandler.hpp"
+
+1365336303 e:\programming\ssvopenhexagonserver\src\ssvopenhexagonserver\\packethandler\packethandler.hpp
+	<iostream>
+	<string>
+	<SFML/Network.hpp>
+	<SSVUtils/SSVUtils.h>
+	"MySQLSession/MySQLSession.hpp"
+

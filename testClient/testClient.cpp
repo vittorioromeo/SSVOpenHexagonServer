@@ -36,7 +36,7 @@ std::string getMD5Hash(const std::string& mString)
 
 int main()
 {
-	bool verbose = false;
+	bool verbose = true;
 	
     //Initialize a socket
     sf::TcpSocket someSocket;
@@ -45,12 +45,12 @@ int main()
     sf::Packet packet0x00, packet0x01,
                packet0x10, packet0x11;
 			   
-	std::string username{"penis"}, level{"AB\"; DROP DATABASE;"};
+	std::string username{"penisface1234"}, level{"testScores"};
 	float score = 123.456;
 			   
 
     //Fill the client to server packets
-    packet0x00 << int8_t{0x00} << level << float{1.f} << username << score << HG_ENCRYPTIONKEY;
+    //packet0x00 << int8_t{0x00} << level << float{1.f} << username << score << HG_ENCRYPTIONKEY;
     packet0x01 << int8_t{0x01} << level << float{1.f} << username;
     
     //Connect to server
@@ -58,13 +58,13 @@ int main()
     someSocket.connect("localhost", 27272);
 
     //Send client to server packet, then receive the server response
-    someSocket.send(packet0x00);
-    someSocket.receive(packet0x10);
+    //someSocket.send(packet0x00);
+    //someSocket.receive(packet0x10);
     
     uint8_t packetID, pass;
     
     //parse the packet. Check packet number and if it passed or not
-    if(packet0x10 >> packetID >> pass)
+    if(packet0x10 >> packetID >> pass);
     {
         if(packetID == 0x10)
         {
@@ -79,10 +79,10 @@ int main()
     }
     
     //Server disconnects after receiving the first packet, so let's do the same
-    someSocket.disconnect();
+    //someSocket.disconnect();
     
     //Let's connect again
-    someSocket.connect("localhost", 27272);
+    //someSocket.connect("localhost", 27272);
     
     //Send/receive the packets again..
     someSocket.send(packet0x01);

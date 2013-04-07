@@ -16,10 +16,73 @@
 
 int main(int argc, char** argv)
 {
+
+    std::string host{""}, user{""}, password{""}, database{""};
+    int portToListenOn{27272};
+
+    for(int i{0}; i < argc; i++)
+    {
+        if(std::string{argv[i]}.find("-h") == 0)
+        {
+            std::string arg{argv[i]};
+            if(argc > i+1 && argv[i+1][0] != '-')
+            {
+                host = argv[i+1];
+                i++;
+            }
+            else if(strlen(argv[i]) > 2 && argv[i][2] == '=')
+                host = std::string{argv[i]}.substr(3, std::string{argv[i]}.length()-3);
+        }
+
+        else if(std::string{argv[i]}.find("-u") == 0)
+        {
+            if(argc > i+1 && argv[i+1][0] != '-')
+            {
+                user = argv[i+1];
+                i++;
+            }
+            else if(strlen(argv[i]) > 2 && argv[i][2] == '=')
+                user = std::string{argv[i]}.substr(3, std::string{argv[i]}.length()-3);
+        }
+
+        else if(std::string{argv[i]}.find("-k") == 0)
+        {
+            if(argc > i+1 && argv[i+1][0] != '-')
+            {
+                password = argv[i+1];
+                i++;
+            }
+            else if(strlen(argv[i]) > 2 && argv[i][2] == '=')
+                password = std::string{argv[i]}.substr(3, std::string{argv[i]}.length()-3);
+        }
+
+        else if(std::string{argv[i]}.find("-d") == 0)
+        {
+            if(argc > i+1 && argv[i+1][0] != '-')
+            {
+                database = argv[i+1];
+                i++;
+            }
+            else if(strlen(argv[i]) > 2 && argv[i][2] == '=')
+                database = std::string{argv[i]}.substr(3, std::string{argv[i]}.length()-3);
+        }
+
+        else if(std::string{argv[i]}.find("-p") == 0)
+        {
+            if(argc > i+1 && argv[i+1][0] != '-')
+            {
+                portToListenOn = atoi(argv[i+1]);
+                i++;
+            }
+            else if(strlen(argv[i]) > 2 && argv[i][2] == '=')
+                portToListenOn = atoi(std::string{std::string{argv[i]}.substr(3, std::string{argv[i]}.length()-3)}.c_str());
+        }
+    }
+
     bool verbose = true;
 
     MySQLSession mainSession {verbose};
-    mainSession.initiate("lolhost", 0, "loluser", "lolpass", "loldatabase");
+    mainSession.initiate(host, 0, user, password, database);
 
     //std::vector</*std::shared_ptr<*/sf::TcpSocket/*>*/> clients;
     const unsigned int clients_size = 1000;
@@ -34,7 +97,7 @@ int main(int argc, char** argv)
 
     sf::TcpListener server;
     server.setBlocking(false);
-    server.listen(27272);
+    server.listen(portToListenOn);
 
     if(verbose)
         std::cout<<"MySQL client version: "<<mysql_get_client_info()<<" \n";

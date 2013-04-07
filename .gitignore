@@ -9,6 +9,9 @@ obj/
 *.a
 *.out
 *.cbTemp
+*.cbp
+*.depend
+*.layout
 
 #################
 ## Eclipse

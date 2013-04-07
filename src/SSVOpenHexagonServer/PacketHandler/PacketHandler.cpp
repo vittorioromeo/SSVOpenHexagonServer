@@ -140,7 +140,7 @@ AS json FROM (
         query.clear();
 
         query =
-R"(SELECT CONCAT("\"ppos\":",
+R"(SELECT CONCAT(
     GROUP_CONCAT(
         CONCAT("{\"p\":", row_number, ","),
         CONCAT("\"n\":\"", user_name, "\""),
