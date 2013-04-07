@@ -42,3 +42,22 @@
 	"MySQLSession/MySQLSession.hpp"
 	"PacketHandler/PacketHandler.hpp"
 
+1365332197 source:e:\programming\ssvopenhexagonserver\src\packethandler\packethandler.cpp
+	<iostream>
+	<string>
+	<SFML/Network.hpp>
+	<SSVUtils/SSVUtils.h>
+	"MySQLSession/MySQLSession.hpp"
+	"PacketHandler/PacketHandler.hpp"
+
+1365336303 e:\programming\ssvopenhexagonserver\src\\mysqlsession\mysqlsession.hpp
+	<mysql/mysql.h>
+	<iostream>
+
+1365336303 e:\programming\ssvopenhexagonserver\src\\packethandler\packethandler.hpp
+	<iostream>
+	<string>
+	<SFML/Network.hpp>
+	<SSVUtils/SSVUtils.h>
+	"MySQLSession/MySQLSession.hpp"
+

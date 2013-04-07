@@ -27,7 +27,8 @@ std::string MySQLSession::runQuery(std::string queryString, bool get)
 
     if(mysql_query(connector, queryString.c_str()))
     {
-        return getError().errorstr;
+        MySQLError error = getError();
+        return std::string{"MySQL Error " + std::to_string(error.errorno) + " : " + error.errorstr};
     }
     //return "";
 
