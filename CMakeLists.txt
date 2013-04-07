@@ -17,7 +17,6 @@ endif()
 
 # Find SFML
 find_package(SFML 2 COMPONENTS system network)
-
 # Output an error if SFML wasn't found
 if(SFML_FOUND)
 	include_directories(${SFML_INCLUDE_DIR})
@@ -25,6 +24,16 @@ else()
 	set(SFML_ROOT "" CACHE PATH "SFML top-level directory")
 	message("\n-> SFML directory not found. Set SFML_ROOT to SFML's top-level path (containing \"include\" and \"lib\" directories).")
 	message("-> Make sure the SFML libraries with the same configuration (Release/Debug, Static/Dynamic) exist.\n")
+endif()
+
+# Find SSVUtils
+find_package(SSVUtils)
+if(SFML_FOUND)
+	include_directories(${SSVUTILS_INCLUDE_DIR})
+else()
+	set(SSVUTILS_ROOT "" CACHE PATH "SSVUtils top-level directory")
+	message("\n-> SFML directory not found. Set SSVUTILS_ROOT to SSVUtils' top-level path (containing \"include\" and \"lib\" directories).")
+	message("-> Make sure the SSVUtils libraries with the same configuration (Release/Debug, Static/Dynamic) exist.\n")
 endif()
 
 # Add the source files
@@ -45,9 +54,5 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Link SFML
 target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
-
-# On Windows install required audio libraries
-if(WIN32)
-	install(FILES ${SFML_ROOT}/bin/openal32.dll ${SFML_ROOT}/bin/libsndfile-1.dll
-			DESTINATION .)
-endif()
+target_link_libraries(${PROJECT_NAME} ${SSVUTILS_LIBRARY})
+target_link_libraries(${PROJECT_NAME} /lib/libmysqlclient.a)
