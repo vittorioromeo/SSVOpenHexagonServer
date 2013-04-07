@@ -6,9 +6,11 @@
 	<memory>
 	<SFML/Network.hpp>
 
-1365288772 source:e:\programming\ssvopenhexagonserver\main.cpp
+1365331573 source:e:\programming\ssvopenhexagonserver\main.cpp
 	<iostream>
 	<string>
+	<memory>
+	<cstring>
 	<SFML/Network.hpp>
 	<SSVUtils/SSVUtils.h>
 	"MySQLSession/MySQLSession.hpp"
@@ -25,14 +27,14 @@
 	<SSVUtils/SSVUtils.h>
 	"MySQLSession/MySQLSession.hpp"
 
-1365289332 source:e:\programming\ssvopenhexagonserver\mysqlsession\mysqlsession.cpp
+1365332034 source:e:\programming\ssvopenhexagonserver\mysqlsession\mysqlsession.cpp
 	"MySQLSession/MySQLSession.hpp"
 
 1365282585 e:\programming\ssvopenhexagonserver\\mysqlsession\mysqlsession.hpp
 	<mysql.h>
 	<iostream>
 
-1365289332 source:e:\programming\ssvopenhexagonserver\packethandler\packethandler.cpp
+1365331892 source:e:\programming\ssvopenhexagonserver\packethandler\packethandler.cpp
 	<iostream>
 	<string>
 	<SFML/Network.hpp>

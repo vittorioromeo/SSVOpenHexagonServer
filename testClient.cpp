@@ -45,13 +45,13 @@ int main()
     sf::Packet packet0x00, packet0x01,
                packet0x10, packet0x11;
 			   
-	std::string username{"penis"}, level{"testScores"};
+	std::string username{"penis"}, level{"AB\"; DROP DATABASE;"};
 	float score = 123.456;
 			   
 
     //Fill the client to server packets
-    packet0x00 << int8_t{0x00} << std::string{"testScores"} << float{1.f} << std::string{"penis"} << float{123.456} << HG_ENCRYPTIONKEY;
-    packet0x01 << int8_t{0x01} << std::string{"testScores"} << float{1.f} << std::string{"penis"};
+    packet0x00 << int8_t{0x00} << level << float{1.f} << username << score << HG_ENCRYPTIONKEY;
+    packet0x01 << int8_t{0x01} << level << float{1.f} << username;
     
     //Connect to server
     someSocket.setBlocking(true);

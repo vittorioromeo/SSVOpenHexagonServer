@@ -3,17 +3,10 @@
 
 void Concantate(std::string &source)
 {
+    std::string allowedChars{"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"};
     for(unsigned int i{0}; i < source.length(); i++)
-    {
-        switch(source[i])
-        {
-        case '\'':
-        case '\"':
-            source[i] = ' ';
-        default:
-            break;
-        }
-    }
+        if(allowedChars.find(source[i]) == std::string::npos)
+            source[i] = '_';
 }
 
 

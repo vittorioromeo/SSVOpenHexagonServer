@@ -65,7 +65,7 @@ bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &
         }
 
 
-        std::string query {"CREATE TABLE IF NOT EXISTS " + level + "(user_name VARCHAR(64) NOT NULL, difficulty DECIMAL(5,2) NOT NULL, score DECIMAL(9,3), PRIMARY KEY ( user_name, difficulty ) );"};
+        std::string query {"CREATE TABLE IF NOT EXISTS " + level + " (user_name VARCHAR(64) NOT NULL, difficulty DECIMAL(5,2) NOT NULL, score DECIMAL(9,3), PRIMARY KEY ( user_name, difficulty ) );"};
         if(verbose) std::cout<<"Running query: "<<query<<std::endl;
         session.runQuery(query);
         query.clear();

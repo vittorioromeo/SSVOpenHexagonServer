@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     bool verbose = true;
 
     MySQLSession mainSession {verbose};
-    mainSession.initiate("localhost", 0, "ohserver", "lolpassword", "oh_scores");
+    mainSession.initiate("lolhost", 0, "loluser", "lolpassword", "loldatabase");
 
     //std::vector</*std::shared_ptr<*/sf::TcpSocket/*>*/> clients;
     const unsigned int clients_size = 1000;
