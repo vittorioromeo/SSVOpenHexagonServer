@@ -49,6 +49,8 @@ set(
 	${SRC_DIR}/${PROJECT_NAME}/main.cpp
 )
 
+include_directories(${INC_DIR}/${PROJECT_NAME})
+
 # Tell CMake to build a executable 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
