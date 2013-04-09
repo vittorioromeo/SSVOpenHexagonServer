@@ -29,8 +29,8 @@
 
 #endif
 
-sf::Packet buildPacket0x10( uint8_t pass );
-sf::Packet buildPacket0x11( uint8_t pass, std::string topScoresJson, std::string userScoreJson );
+sf::Packet buildPacket0x10(uint8_t pass);
+sf::Packet buildPacket0x11(uint8_t pass, std::string topScoresJson, std::string userScoreJson);
 
 bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose);
 bool handlePacket0x01(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose);
