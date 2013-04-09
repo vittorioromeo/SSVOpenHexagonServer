@@ -11,26 +11,26 @@ class MySQLSession
 {
 
 public:
-    struct MySQLError
-    {
-        unsigned int errorno;
-        std::string errorstr;
-    };
+	struct MySQLError
+	{
+		unsigned int errorno;
+		std::string errorstr;
+	};
 
 private:
-    MYSQL *connector;
-    MYSQL_RES *result;
-    MYSQL_ROW row;
-    bool initialized, verbose;
-    std::string Hostname, username, password, database;
-    int port;
+	MYSQL *connector;
+	MYSQL_RES *result;
+	MYSQL_ROW row;
+	bool initialized, verbose;
+	std::string Hostname, username, password, database;
+	int port;
 
-    MySQLError getError();
+	MySQLError getError();
 
 public:
 
-    std::string runQuery(std::string queryString, bool get = false);
-    bool initiate(std::string Hostname_, int port_, std::string username_, std::string password_, std::string database_ = "");
-    void closeSQL();
-    MySQLSession(bool verbose_);
+	std::string runQuery(std::string queryString, bool get = false);
+	bool initiate(std::string Hostname_, int port_, std::string username_, std::string password_, std::string database_ = "");
+	void closeSQL();
+	MySQLSession(bool verbose_);
 };

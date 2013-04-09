@@ -34,4 +34,4 @@ sf::Packet buildPacket0x11( uint8_t pass, std::string topScoresJson, std::string
 
 bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose);
 bool handlePacket0x01(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose);
-bool    handlePackets(sf::Packet packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose);
+bool handlePackets(sf::Packet packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose);
