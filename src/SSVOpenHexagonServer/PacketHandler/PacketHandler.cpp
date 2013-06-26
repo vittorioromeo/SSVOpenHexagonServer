@@ -7,25 +7,22 @@
 
 std::string getMD5Hash(const std::string& mString)
 {
-    ssvu::MD5 key {mString};
-    return key.GetHash();
+    return ssvu::MD5 {mString} .GetHash();
 }
 
 sf::Packet buildPacket0x10(uint8_t pass)
 {
     sf::Packet returnValue;
-    returnValue << uint8_t {0x10} << pass;
-    return returnValue;
+    return returnValue << uint8_t {0x10} << pass;
 }
 
 sf::Packet buildPacket0x11(uint8_t pass, std::string topScoresJson, std::string userScoreJson)
 {
     sf::Packet returnValue;
-    returnValue << uint8_t {0x11} << pass << topScoresJson << userScoreJson;
-    return returnValue;
+    return returnValue << uint8_t {0x11} << pass << topScoresJson << userScoreJson;
 }
 
-bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose)
+bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool& verbose)
 {
     // This packet handles a score submission.
     // order: level, difficulty, username, score
@@ -88,7 +85,7 @@ bool handlePacket0x00(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &
 
 }
 
-bool handlePacket0x01(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose)
+bool handlePacket0x01(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &socket, bool& verbose)
 {
     std::string level, username;
     float difficulty;
@@ -107,46 +104,20 @@ bool handlePacket0x01(sf::Packet &packet, MySQLSession &session, sf::TcpSocket &
         }
 
         std::string query =
+            std::string {R"(SELECT CONCAT("[",GROUP_CONCAT(CONCAT("{\"p\":", row_number, ","),CONCAT("\"n\":\"", user_name, "\""),CONCAT(",\"s\":",score,"}")),"]")AS json )"} +
+            std::string{R"(FROM (SELECT score, user_name, @curRow := @curRow + 1 AS row_number FROM )" + level + R"( JOIN(SELECT @curRow := 0) r WHERE difficulty = )"} +
+            std::to_string(difficulty) +
+            std::string{R"( ORDER BY score DESC LIMIT 8 ) AS foo;)"};
 
-            R"(SELECT CONCAT("[",
-                               GROUP_CONCAT(
-                               CONCAT(" {\"p\":", row_number, ","),
-                               CONCAT("\"n\":\"", user_name, "\""),
-                               CONCAT(",\"s\":",score,"}")
-                              ),
-            "]"
-            )
-        AS json FROM (
-    SELECT score, user_name, @curRow := @curRow + 1 AS row_number
-                                        FROM )" + level + R"( JOIN(SELECT @curRow :
-                                                        = 0) r WHERE difficulty = )" + std::to_string(difficulty) + R"(
-                                                                ORDER BY score DESC LIMIT 8
-                                                        ) AS foo;)";
-
-        //std::cout <<query<< std::endl;
-
+        if(verbose) std::cout << query << std::endl;
         std::string topScoresJson{session.runQuery(query, true)};
 
         query.clear();
 
         query =
-        R"(SELECT CONCAT(
-               GROUP_CONCAT(
-                   CONCAT("{\"p\":", row_number, ","),
-                   CONCAT("\"n\":\"", user_name, "\""),
-                   CONCAT(",\"s\":",score,"}")
-               )
-           ) AS json FROM (
-               SELECT score, user_name, row_number
-               FROM (
-           SELECT score, user_name, @curRow :
-                   = @curRow + 1 AS row_number
-             FROM )" + level + R"( JOIN(SELECT @curRow := 0) r
-                                           WHERE difficulty = )" + std::to_string(difficulty) + R"(
-                   ORDER BY score DESC
-               ) AS derp
-               WHERE user_name = ")" + username + R"("
-           ) AS foo;)";
+        std::string{R"(SELECT CONCAT(GROUP_CONCAT(CONCAT("{\"p\":", row_number, ","), CONCAT("\"n\":\"", user_name, "\""), CONCAT(",\"s\":",score,"}"))) AS json )"} +
+        std::string{R"(FROM ( SELECT score, user_name, row_number FROM ( SELECT score, user_name, @curRow := @curRow + 1 AS row_number FROM )" + level + R"( JOIN(SELECT @curRow := 0) r )"} +
+        std::string{R"(WHERE difficulty = )" + std::to_string(difficulty) + R"( ORDER BY score DESC ) AS derp WHERE user_name = ")" + username + R"(" ) AS foo;)"};
 
         if(verbose) std::cout << query << std::endl;
 
@@ -169,20 +140,21 @@ if(verbose) std::cout << "Error: packet 0x01 did not extract successfully." << s
         return false;
     }
 
-        bool handlePackets(sf::Packet packet, MySQLSession &session, sf::TcpSocket &socket, bool verbose)
-    {
-        int8_t packetIdentifier;
-        if(packet >> packetIdentifier)
+bool handlePackets(sf::Packet& packet, MySQLSession &session, sf::TcpSocket &socket, bool& verbose)
+{
+    int8_t packetIdentifier;
+    if(packet >> packetIdentifier)
     {
         switch(packetIdentifier)
-    {
-        case 0x00:
-        return handlePacket0x00(packet, session, socket, verbose);
-        break;
-        case 0x01:
-        return handlePacket0x01(packet, session, socket, verbose);
-        break;
+        {
+            case 0x00:
+                return handlePacket0x00(packet, session, socket, verbose);
+                break;
+
+            case 0x01:
+                return handlePacket0x01(packet, session, socket, verbose);
+                break;
+        }
     }
-    }
-        return true;
-    }
+    return true;
+}

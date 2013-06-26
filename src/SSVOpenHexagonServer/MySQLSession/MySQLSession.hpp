@@ -26,7 +26,7 @@ private:
 
 public:
     std::string runQuery(std::string queryString, bool get = false);
-    bool initiate(std::string Hostname_, int port_, std::string username_, std::string password_, std::string database_ = "");
+    bool initiate(const std::string& Hostname_, const int& port_, const std::string& username_, const std::string& password_, const std::string& database_ = "");
     void closeSQL();
     MySQLSession(bool verbose_);
 };

@@ -51,7 +51,7 @@ std::string MySQLSession::runQuery(std::string queryString, bool get)
 }
 
 // TODO: pass strings as const& !!!
-bool MySQLSession::initiate(std::string Hostname_, int port_, std::string username_, std::string password_, std::string database_)
+bool MySQLSession::initiate(const std::string& Hostname_, const int& port_, const std::string& username_, const std::string& password_, const std::string& database_)
 {
     Hostname = Hostname_;
     username = username_;
