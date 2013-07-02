@@ -113,7 +113,7 @@ int main(int argc, char** argv)
     }
 
     //True if debug, false if release
-    bool verbose {true};
+    bool verbose {false};
 
     //Create a MySQL session
     MySQLSession mainSession {verbose};
@@ -150,7 +150,6 @@ int main(int argc, char** argv)
                 {
                     if((*placeholderClientItr == it) && ((*placeholderClientItr).id != it.id))
                     {
-                        std::cout<<"Lololoadajs;dkja\n";
                         IPExists = true;
                         placeholderClientItr->socket->disconnect();
                         break;
